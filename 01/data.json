@@ -1,23 +1,20 @@
 [
-    {
-        "id": 1,
-        "name": "eBook",
-        "price": 49,
-        "quantity": 1
-
-    },
-    {
-        "id": 2,
-        "name": "Mysz komputerowa",
-        "price": 249,
-        "quantity": 1
-
-    },
-    {
-        "id": 3,
-        "name": "Klawiatura komputerowa",
-        "price": 149,
-        "quantity": 2
-
-    }
+  {
+    "id": 1,
+    "name": "eBook",
+    "price": 49,
+    "quantity": 1
+  },
+  {
+    "id": 2,
+    "name": "Mysz komputerowa",
+    "price": 249,
+    "quantity": 1
+  },
+  {
+    "id": 3,
+    "name": "Klawiatura komputerowa",
+    "price": 149,
+    "quantity": 2
+  }
 ]

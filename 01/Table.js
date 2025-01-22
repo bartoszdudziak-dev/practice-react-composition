@@ -1,66 +1,64 @@
 import React from "react";
 
-const TableHeader = () => {
+const TableHeader = ({ cols }) => {
+  const headerCols = cols.map((col, i) => <th key={i}>{col}</th>);
+
   return (
     <thead>
-      <tr>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Quantity</th>
-        <th>Total Price</th>
-      </tr>
+      <tr>{headerCols}</tr>
     </thead>
   );
 };
 
-const TableBody = ({ data }) => {
-  return (
-    <tbody>
-      {data.map((row) => (
-        <TableRow key={row.id} row={row} />
-      ))}
-    </tbody>
-  );
+const TableBody = ({ rows, cols }) => {
+  const getColsValues = (row) =>
+    cols.map((col) =>
+      typeof col.value === "function" ? col.value(row) : row[col.value]
+    );
+
+  const bodyRows = rows.map((row) => (
+    <TableRow key={row.id} cols={getColsValues(row)} />
+  ));
+
+  return <tbody>{bodyRows}</tbody>;
 };
 
-const TableRow = ({ row }) => {
-  const { name, price, quantity } = row;
-
+const TableRow = ({ cols }) => {
   return (
     <tr>
-      <td>{name}</td>
-      <td>{price}</td>
-      <td>{quantity}</td>
-      <td>{quantity * price}</td>
+      {cols.map((col, i) => (
+        <td key={i}>{col}</td>
+      ))}
     </tr>
   );
 };
 
-const TableFooter = ({ totalPrice }) => {
+const TableFooter = ({ cols }) => {
+  const footerColumns = cols.map((col, i) => {
+    if (i === 0) {
+      return <th key={i}>{col}</th>;
+    } else {
+      return <td key={i}>{col}</td>;
+    }
+  });
+
   return (
     <tfoot>
-      <tr>
-        <th>Total</th>
-        <td>{totalPrice}</td>
-      </tr>
+      <tr>{footerColumns}</tr>
     </tfoot>
   );
 };
 
 class Table extends React.Component {
   render() {
-    const { data } = this.props;
-
-    const totalPrice = data.reduce(
-      (acc, cur) => acc + cur.quantity * cur.price,
-      0
-    );
+    const { data, cols, footer } = this.props;
+    const header = cols.map((col) => col.name);
 
     return (
       <table>
-        <TableHeader />
-        <TableBody data={data} />
-        <TableFooter totalPrice={totalPrice} />
+        <TableHeader cols={header} />
+        <TableBody rows={data} cols={cols} />
+        <TableFooter cols={footer} />
       </table>
     );
   }
